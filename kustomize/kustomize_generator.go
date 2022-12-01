@@ -669,8 +669,11 @@ func Build(fs filesys.FileSystem, dirPath string) (res resmap.ResMap, err error)
 
 	buildOptions := &krusty.Options{
 		LoadRestrictions: kustypes.LoadRestrictionsNone,
-		PluginConfig:     kustypes.DisabledPluginConfig(),
+		PluginConfig:     kustypes.EnabledPluginConfig(kustypes.BploUseStaticallyLinked),
 	}
+
+	// enable exec
+	buildOptions.PluginConfig.FnpLoadingOptions.EnableExec = true
 
 	k := krusty.MakeKustomizer(buildOptions)
 	return k.Run(fs, dirPath)
